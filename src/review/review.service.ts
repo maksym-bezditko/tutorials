@@ -13,6 +13,10 @@ export class ReviewService {
     private readonly reviewModel: ModelType<ReviewModel>,
   ) {}
 
+  async getAll(): Promise<DocumentType<ReviewModel>[]> {
+    return this.reviewModel.find();
+  }
+
   async create(dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
     return this.reviewModel.create(dto);
   }

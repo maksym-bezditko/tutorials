@@ -16,12 +16,17 @@ import { REVIEW_NOT_FOUND } from './review.constants';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
+  @Get('get')
+  async get() {
+    return this.reviewService.getAll();
+  }
+
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
     return this.reviewService.create(dto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   async delete(@Param('id') id: string) {
     const deletedDoc = await this.reviewService.delete(id);
 
@@ -31,7 +36,7 @@ export class ReviewController {
   }
 
   @Get('byProduct/:productId')
-  async get(@Param('productId') productId: string) {
+  async getByProduct(@Param('productId') productId: string) {
     return this.reviewService.findByProductId(productId);
   }
 }
