@@ -10,7 +10,7 @@ import { ProductModel } from './product.model';
       {
         typegooseClass: ProductModel,
         schemaOptions: {
-          collection: 'product',
+          collection: 'Product',
         },
       },
     ]),

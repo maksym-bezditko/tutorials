@@ -21,7 +21,7 @@ const getMongoConnectionString = (configService: ConfigService) => {
     ':' +
     configService.get('MONGO_PORT') +
     '/' +
-    configService.get('MONGO_AUTHDATABASE')
+    configService.get('MONGO_DB_NAME')
   );
 };
 

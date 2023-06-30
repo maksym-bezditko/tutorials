@@ -11,7 +11,7 @@ import { ReviewService } from './review.service';
       {
         typegooseClass: ReviewModel,
         schemaOptions: {
-          collection: 'review',
+          collection: 'Review',
         },
       },
     ]),
