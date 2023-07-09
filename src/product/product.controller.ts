@@ -7,25 +7,51 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { ProductModel } from './product.model';
-import { FindProductDto } from './dto/find.product.dto';
+import { FindProductDto } from './dto/find-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { ProductService } from './product.service';
+import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('product')
 export class ProductController {
+  constructor(private readonly productService: ProductService) {}
+
   @Post('create')
-  async create(@Body() dto: Omit<ProductModel, '_id'>) {}
+  @UseGuards(new JwtGuard())
+  @UsePipes(new ValidationPipe())
+  async create(@Body() dto: CreateProductDto) {
+    return this.productService.create(dto);
+  }
 
   @Get(':id')
-  async get(@Param('id') id: string) {}
+  async get(@Param('id', IdValidationPipe) id: string) {
+    return this.productService.findById(id);
+  }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {}
+  @UseGuards(new JwtGuard())
+  async delete(@Param('id', IdValidationPipe) id: string) {
+    return this.productService.deleteById(id);
+  }
 
+  @UseGuards(new JwtGuard())
   @Patch(':id')
-  async patch(@Body() dto: ProductModel, @Param('id') id: string) {}
+  async patch(
+    @Body() dto: CreateProductDto,
+    @Param('id', IdValidationPipe) id: string,
+  ) {
+    return this.productService.updateById(id, dto);
+  }
 
   @HttpCode(200)
-  @Post()
-  async find(@Body('id') dto: FindProductDto) {}
+  @UsePipes(new ValidationPipe())
+  @Post('find')
+  async find(@Body() dto: FindProductDto) {
+    return this.productService.findWithReviews(dto);
+  }
 }

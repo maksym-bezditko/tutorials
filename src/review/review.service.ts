@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReviewModel } from './review.model';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { DocumentType } from '@typegoose/typegoose/lib/types';
 import { Types } from 'mongoose';
+import { REVIEW_NOT_FOUND } from './review.constants';
 
 @Injectable()
 export class ReviewService {
@@ -13,16 +14,16 @@ export class ReviewService {
     private readonly reviewModel: ModelType<ReviewModel>,
   ) {}
 
-  async getAll(): Promise<DocumentType<ReviewModel>[]> {
-    return this.reviewModel.find();
-  }
-
   async create(dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
     return this.reviewModel.create(dto);
   }
 
-  async delete(id: string): Promise<DocumentType<ReviewModel> | null> {
-    return this.reviewModel.findByIdAndDelete(id).exec();
+  async delete(id: string) {
+    const deletedReview = await this.reviewModel.findByIdAndDelete(id).exec();
+
+    if (!deletedReview) {
+      throw new NotFoundException(REVIEW_NOT_FOUND);
+    }
   }
 
   async deleteByProductId(productId: string) {

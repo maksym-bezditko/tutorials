@@ -2,10 +2,10 @@ import { prop } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
 export enum TopLevelCategory {
-  Courses,
-  Services,
-  Products,
-  Books,
+  Courses = 'Courses',
+  Services = 'Services',
+  Products = 'Products',
+  Books = 'Books',
 }
 
 export class HHData {
@@ -36,7 +36,7 @@ export class TopPageModel extends TimeStamps {
   firstCategory: TopLevelCategory;
 
   @prop()
-  secondCategpry: string;
+  secondCategory: string;
 
   @prop({ unique: true })
   alias: string;
@@ -47,16 +47,16 @@ export class TopPageModel extends TimeStamps {
   @prop()
   category: string;
 
-  @prop({ type: () => HHData })
+  @prop({ type: () => HHData, _id: false })
   hh?: HHData;
 
-  @prop({ type: () => [TopPageAdvantage] })
+  @prop({ type: () => [TopPageAdvantage], _id: false })
   advantages: TopPageAdvantage[];
 
   @prop()
   seoText: string;
 
-  @prop({ type: () => [String] })
+  @prop({ type: () => [String], _id: false })
   tags: string[];
 
   @prop()
