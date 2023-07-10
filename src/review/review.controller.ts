@@ -13,19 +13,23 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Review')
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @UsePipes(new ValidationPipe())
   @UseGuards(new JwtGuard())
+  @ApiBearerAuth()
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
     return this.reviewService.create(dto);
   }
 
   @UseGuards(new JwtGuard())
+  @ApiBearerAuth()
   @Delete(':id')
   async delete(@Param('id', IdValidationPipe) id: string) {
     return this.reviewService.delete(id);

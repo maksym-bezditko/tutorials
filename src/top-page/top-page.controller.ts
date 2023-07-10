@@ -16,13 +16,16 @@ import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 import { TopPageService } from './top-page.service';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Top Page')
 @Controller('top-page')
 export class TopPageController {
   constructor(private readonly topPageService: TopPageService) {}
 
   @Post('create')
   @UseGuards(new JwtGuard())
+  @ApiBearerAuth()
   @UsePipes(new ValidationPipe())
   async create(@Body() dto: CreateTopPageDto) {
     return this.topPageService.create(dto);
@@ -39,12 +42,14 @@ export class TopPageController {
   }
 
   @UseGuards(new JwtGuard())
+  @ApiBearerAuth()
   @Delete(':id')
   async delete(@Param('id', IdValidationPipe) id: string) {
     return this.topPageService.deleteById(id);
   }
 
   @UseGuards(new JwtGuard())
+  @ApiBearerAuth()
   @Patch(':id')
   async patch(
     @Body() dto: CreateTopPageDto,

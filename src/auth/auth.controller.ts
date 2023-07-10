@@ -12,7 +12,10 @@ import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { JwtGuard } from './guards/jwt.guard';
 import { UserEmailFromJwt } from '../decorators/user-email.decorator';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
