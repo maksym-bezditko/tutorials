@@ -14,8 +14,8 @@ import {
 import { FindProductDto } from './dto/find-product.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
-import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Product')

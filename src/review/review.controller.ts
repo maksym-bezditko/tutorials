@@ -12,7 +12,7 @@ import {
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Review')

@@ -57,6 +57,9 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/review/create')
       .send({ ...testCreateReviewDto, rating: 6 })
+      .set({
+        Authorization: 'Bearer ' + accessToken,
+      })
       .expect(400)
       .then(({ body }: request.Response) => {
         expect(body).toHaveProperty('message');
@@ -67,6 +70,9 @@ describe('AppController (e2e)', () => {
   it('/review/create (POST)', async () => {
     return request(app.getHttpServer())
       .post('/review/create')
+      .set({
+        Authorization: 'Bearer ' + accessToken,
+      })
       .send(testCreateReviewDto)
       .expect(201)
       .then(({ body }: request.Response) => {
@@ -82,9 +88,6 @@ describe('AppController (e2e)', () => {
   it('/review/byProduct/:productId (GET) - success', async () => {
     return request(app.getHttpServer())
       .get('/review/byProduct/' + testProductId)
-      .set({
-        Authorization: 'Bearer ' + accessToken,
-      })
       .expect(200)
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(1);
@@ -93,7 +96,7 @@ describe('AppController (e2e)', () => {
 
   it('/review/delete/:id (DELETE) - success', async () => {
     return request(app.getHttpServer())
-      .delete('/review/delete/' + createdId)
+      .delete('/review/' + createdId)
       .set({
         Authorization: 'Bearer ' + accessToken,
       })
@@ -103,9 +106,6 @@ describe('AppController (e2e)', () => {
   it('/review/byProduct/:productId (GET) - fail', async () => {
     return request(app.getHttpServer())
       .get('/review/byProduct/' + testProductId)
-      .set({
-        Authorization: 'Bearer ' + accessToken,
-      })
       .expect(200)
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(0);

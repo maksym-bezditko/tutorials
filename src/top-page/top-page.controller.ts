@@ -12,10 +12,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FindTopPageDto } from './dto/find-top-page.dto';
-import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
 import { TopPageService } from './top-page.service';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Top Page')

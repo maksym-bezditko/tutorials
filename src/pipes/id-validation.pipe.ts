@@ -5,7 +5,7 @@ import {
   PipeTransform,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { ID_VALIDATION_ADVICE, ID_VALIDATION_ERROR } from 'src/app.constants';
+import { ID_VALIDATION_ADVICE, ID_VALIDATION_ERROR } from '../app.constants';
 
 @Injectable()
 export class IdValidationPipe implements PipeTransform {
