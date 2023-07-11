@@ -8,8 +8,8 @@ jobs:
   tests:
       runs-on: ubuntu-latest
       strategy:
-      matrix:
-        node: [ 14, 16, 18 ]
+        matrix:
+          node: [ 14, 16, 18 ]
       steps:
         - name: Checkout from main
           uses: actions/checkout@v3
@@ -19,12 +19,14 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: ${{ matrix.node }}
+        - name: Clean npm cache
+          run: npm cache clean --force
         - name: Install deps
-          run: npm ci
+          run: npm i -f
         - name: Run unit tests
           run: npm run test
   build:
-    needs: [test]
+    needs: [tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout from main
@@ -34,8 +36,8 @@ jobs:
       - name: Publish to the registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          registry: https://ghcr.io
-          name: https://ghcr.io/maksym-bezditko/tutorials/tutorials
+          registry: ghcr.io
+          name: ghcr.io/maksym-bezditko/tutorials/tutorials
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "development"
+          tags: "develop"
