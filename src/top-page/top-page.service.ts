@@ -58,6 +58,10 @@ export class TopPageService {
     return this.topPageModel.findById(id).exec();
   }
 
+  async findAll() {
+    return this.topPageModel.find().exec();
+  }
+
   async validateAndFindById(id: string) {
     await this.checkForExistenseByIdAndThrowError(id);
 

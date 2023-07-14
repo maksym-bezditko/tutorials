@@ -4,8 +4,8 @@ services:
     image: mongo
     container_name: mongo
     restart: always
-    # ports:
-    #   - 27018:27017
+    ports:
+      - 27018:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
@@ -13,11 +13,11 @@ services:
       - ./mongo-data:/data/db
     command: --wiredTigerCacheSizeGB 1.5
 
-  top-api:
-    image: tutorials-api
-    container_name: top-api
-    restart: always
-    ports:
-      - 3000:3000
-    volumes:
-      - ./.env:/opt/app/.env
+  # top-api:
+  #   image: ghcr.io/maksym-bezditko/tutorials/tutorials:develop
+  #   container_name: top-api
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./.env:/opt/app/.env

@@ -6,6 +6,8 @@ import { TopPageModule } from './top-page/top-page.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { getMongoConfig } from './config/mongo.config';
+import { FilesModule } from './files/files.module';
+import { SitemapModule } from './sitemap/sitemap.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { getMongoConfig } from './config/mongo.config';
     ProductModule,
     ReviewModule,
     TopPageModule,
+    FilesModule,
+    SitemapModule,
   ],
 })
 export class AppModule {}
