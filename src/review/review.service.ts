@@ -39,4 +39,8 @@ export class ReviewService {
       .find({ productId: new Types.ObjectId(productId) })
       .exec();
   }
+
+  async getAll(): Promise<DocumentType<ReviewModel>[]> {
+    return this.reviewModel.find({}).exec();
+  }
 }

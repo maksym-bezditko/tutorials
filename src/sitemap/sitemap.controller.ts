@@ -1,7 +1,7 @@
 import { SitemapUrl } from './types/index';
 import { Controller, Get, Header } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TopPageService } from 'src/top-page/top-page.service';
+import { TopPageService } from '../top-page/top-page.service';
 import { format, sub } from 'date-fns';
 import { Builder } from 'xml2js';
 import { RouteMap } from './sitemap.constants';

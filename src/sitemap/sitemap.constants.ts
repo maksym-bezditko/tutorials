@@ -1,4 +1,4 @@
-import { TopLevelCategory } from 'src/top-page/top-page.model';
+import { TopLevelCategory } from '../top-page/top-page.model';
 
 type RouteMapType = Record<TopLevelCategory, string>;
 

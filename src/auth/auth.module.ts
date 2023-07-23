@@ -20,11 +20,15 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         },
       },
     ]),
+
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
       useFactory: getJwtAuthConfig,
+      inject: [ConfigService],
     }),
+
+    ConfigModule,
+
     PassportModule,
   ],
   providers: [AuthService, JwtStrategy],

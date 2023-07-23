@@ -8,7 +8,7 @@ import {
   PRODUCT_NOT_FOUND_ERROR,
 } from './product.constants';
 import { FindProductDto } from './dto/find-product.dto';
-import { ReviewModel } from 'src/review/review.model';
+import { ReviewModel } from '../review/review.model';
 
 @Injectable()
 export class ProductService {

@@ -14,11 +14,15 @@ import { ReviewService } from './review.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { IdValidationPipe } from '../pipes/id-validation.pipe';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { TelegramService } from '../telegram/telegram.service';
 
 @ApiTags('Review')
 @Controller('review')
 export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(
+    private readonly reviewService: ReviewService,
+    private readonly telegramService: TelegramService,
+  ) {}
 
   @UsePipes(new ValidationPipe())
   @UseGuards(new JwtGuard())
@@ -38,5 +42,16 @@ export class ReviewController {
   @Get('byProduct/:productId')
   async getByProduct(@Param('productId', IdValidationPipe) productId: string) {
     return this.reviewService.findByProductId(productId);
+  }
+
+  @Post('/notify')
+  async notify() {
+    const allReviews = await this.reviewService.getAll();
+
+    for (const review of allReviews) {
+      const message = `Name: ${review.name}\n\nTitle: ${review.title}\n\nDescription: ${review.description}\n\nRating: ${review.rating}\n\nProductId: ${review.productId}`;
+
+      await this.telegramService.sendMessage(message);
+    }
   }
 }

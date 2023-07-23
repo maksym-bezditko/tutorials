@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { CreateReviewDto } from 'src/review/dto/create-review.dto';
+import { CreateReviewDto } from '../src/review/dto/create-review.dto';
 import { Types, disconnect } from 'mongoose';
-import { AuthDto } from 'src/auth/dto/auth.dto';
+import { AuthDto } from '../src/auth/dto/auth.dto';
 import { randomBytes } from 'crypto';
 
 // generating random credentials to avoid interference with real user accounts
