@@ -1,0 +1,15 @@
+show users
+	pwd: "password",
+{	user: "Guru99",
+db.createUser(
+mongo
+show users
+db.getCollection('Product').find({})
+use admin
+show dbsru99",
+db.createUser(
+mongo
+show users
+db.getCollection('Product').find({})
+use admin
+show dbs

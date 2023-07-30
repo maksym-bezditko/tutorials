@@ -1,20 +1,29 @@
-version: "3"
+version: '3'
+
 services:
   mongo:
     image: mongo
     container_name: mongo
     restart: always
-    ports:
-      - 27018:27017
     volumes:
       - ./mongo-data:/data/db
-    command: --wiredTigerCacheSizeGB 1.5
+    networks:
+      - my-network
 
-  # top-api:
-  #   image: ghcr.io/maksym-bezditko/tutorials/tutorials:develop
-  #   container_name: top-api
-  #   restart: always
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - ./.env:/opt/app/.env
+  tutorials-api:
+    depends_on:
+      - mongo
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./.env:/opt/app/.env
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

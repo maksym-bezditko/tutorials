@@ -8,21 +8,14 @@ export const getMongoConfig = (
   ...getMongoConnectionOptions(),
 });
 
-// mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
-
 const getMongoConnectionString = (configService: ConfigService) => {
-  return (
-    'mongodb://' +
-    configService.get('MONGO_LOGIN') +
-    ':' +
-    configService.get('MONGO_PASSWORD') +
-    '@' +
-    configService.get('MONGO_HOST') +
-    ':' +
-    configService.get('MONGO_PORT') +
-    '/' +
-    configService.get('MONGO_DB_NAME')
-  );
+  const port = configService.get('ENVIRONMENT') === 'staging' ? '' : ':' + configService.get('MONGO_PORT');
+
+  const connectionURL = 'mongodb://' + configService.get('MONGO_LOGIN') + ':' + configService.get('MONGO_PASSWORD') + '@' + configService.get('MONGO_HOST') + port + '/' + configService.get('MONGO_DB_NAME');
+
+  console.log(connectionURL);
+
+  return connectionURL;
 };
 
 const getMongoConnectionOptions = () => ({

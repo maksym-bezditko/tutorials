@@ -33,11 +33,33 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
-      - name: Publish to the registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          registry: ghcr.io
-          name: ghcr.io/maksym-bezditko/tutorials/tutorials
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "develop"
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+            HOSTNAME: ${{secrets.HOST_DNS}}
+            USER_NAME: ${{secrets.USERNAME}}
+            SSHPASS: ${{ secrets.SSH_PASS }}
+            DOT_ENV: ${{ secrets.DOT_ENV }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+
+          export SSHPASS=${SSHPASS}
+          export DOT_ENV=${DOT_ENV}
+          echo "$DOT_ENV" > .env
+
+          sshpass -e ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+              # Now we have got the access of EC2 and we will start the deploy .
+              export DOT_ENV=${DOT_ENV}
+
+              docker rm -vf $(docker ps -aq) || true &&
+              docker rmi -vf $(docker images -aq) || true &&
+              rm -rf tutorials &&
+              git clone https://github.com/maksym-bezditko/tutorials.git'
+
+          sshpass -e scp -i private_key .env ${USER_NAME}@${HOSTNAME}:~/tutorials/
+
+          sshpass -e ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+              cd tutorials &&
+              docker-compose up -d
+          '
